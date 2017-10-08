@@ -8,10 +8,25 @@ def homepage(request):
 	return render(request, 'home/home.html')
 
 def signup(request):
+	if request.method == 'POST':
+		form = CustomUserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
+			return redirect('homepage')
+	else:
+		form = CustomUserCreationForm()
+		return render(request, 'home/signup.html', {'form': form})
+
+"""
+def test(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+    form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -20,6 +35,4 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'home/signup.html', {'form': form})
-
-def test(request):
-    return render(request, 'home/test.html')
+"""

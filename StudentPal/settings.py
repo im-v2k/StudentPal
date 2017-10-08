@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'home',
+    'userinfo',
+    'performance',
+    'schedule',
+    'groups',
 ]
 
 MIDDLEWARE = [

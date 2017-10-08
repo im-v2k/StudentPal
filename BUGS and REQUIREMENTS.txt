@@ -2,3 +2,5 @@ BUGS NOTICED TILL NOW:
 ======================
 
 -- The /signup page creates a user with empty password and given username though the validation is not valid, thus not allowing the user to create the account with the username he wished later.
+
+-- Profile pic and Resume fields should be added in profileinfo app.

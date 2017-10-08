@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<title>Personal Info</title>
+<body>
+    {% if user.is_authenticated %}
+        <ul>
+            <li>Username      : <input type="text" value="{{ user.username }}"></li>
+            <li>First name    : <input type="text" value="{{ user.first_name }}"></li>
+            <li>Last name     : <input type="text" value="{{ user.last_name }}"></li>
+            <li>Email Address : <input type="email" value="{{ user.email }}"></li>
+            <li>University    : <input type="text" value="{{ user.profile.univ }}"></li>
+            <li>Date of birth : <input type="date" value="{{ user.profile.dob }}"></li>
+            <li>Gender        : <input type="text" value="{{ user.profile.gender }}"></li>
+            <li>About me      : <input type="text" value="{{ user.profile.aboutme }}"></li>
+        </ul>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a> to view/change your info.
+    {% endif %}
+</body>
+</html>

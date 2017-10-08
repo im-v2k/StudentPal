@@ -1,6 +1,6 @@
 {% extends 'home/base.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Student Pal{% endblock %}
 
 {% block content %}
   <h2>Home</h2>
@@ -12,6 +12,7 @@
         Hi {{ user.username }}!
       {% endif %}
       <a href="{% url 'logout' %}">logout</a>
+      <a href="{% url 'user_info' %}">info</a>
       {% if user.is_superuser %}
         <br>
         Go to <a href="{% url 'admin:index' %}">admin</a> site.

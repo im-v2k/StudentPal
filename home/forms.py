@@ -1,25 +1,28 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class CustomUserCreationForm(UserCreationForm):
     
     first_name = forms.CharField(
-        #label=_("First name"),
+        label=_("First name"),
         max_length=20,
         required=True
     )
     last_name = forms.CharField(
-        #label=_("Last name"),
+        label=_("Last name"),
         max_length=20,
         required=False
     )
-    email = forms.EmailField(required=True)
-
+    email = forms.EmailField(
+        label=_("Email Address"),
+        required=True
+        )
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", "password1", "password2")
+        fields = ("username", "password1", "password2", "first_name", "last_name", "email")
 
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
