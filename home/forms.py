@@ -17,7 +17,8 @@ class CustomUserCreationForm(UserCreationForm):
     )
     email = forms.EmailField(
         label=_("Email Address"),
-        required=True
+        required=True,
+        help_text=_("Your email address is used to send you notifications, performance reports and also in case of a password reset.")
         )
 
     class Meta:
