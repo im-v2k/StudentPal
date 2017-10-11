@@ -2,6 +2,7 @@
 <html>
 <title>Personal Info</title>
 <body>
+<center>
     {% if user.is_authenticated %}
         <form>
             Username      : <input type="text" value="{{ user.username }}"><br><br>
@@ -12,9 +13,12 @@
             Date of birth : <input type="text" value="{{ user.profile.dob }}"><br><br>
             Gender        : <input type="text" value="{{ user.profile.gender }}"><br><br>
             About me      : <input type="text" value="{{ user.profile.aboutme }}"><br><br>
+            <button type="submit">Edit</button>
+            <button type="submit">Save</button>
         </form>
     {% else %}
         <a href="{% url 'login' %}">Login</a> to view/change your info.
     {% endif %}
+</center>
 </body>
 </html>

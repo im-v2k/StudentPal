@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('home.urls')),
     url(r'', include('userinfo.urls')),
+    url(r'', include('schedule.urls')),
 ]

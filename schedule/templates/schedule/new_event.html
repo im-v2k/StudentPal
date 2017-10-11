@@ -1,0 +1,11 @@
+<html>
+<title> Schedule </title>
+<body>
+	<h1> Add an event </h1> <br> <br>
+	<form method="post">
+	{% csrf_token %}
+	{{ form.as_ul }}
+	<button type="submit"> Done </button>
+	</form>
+</body>
+</html>
