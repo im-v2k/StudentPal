@@ -32,3 +32,7 @@ def create_event(request):
 		form = event_details()
 
 	return render(request, 'schedule/new_event.html',{'form': form,})
+
+def all_events(request):
+	events = Event.objects.all()
+	return render(request,'schedule/All_events.html',{'events' : events})
