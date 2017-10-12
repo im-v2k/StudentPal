@@ -13,9 +13,7 @@
       {% endif %}
       <a href="{% url 'logout' %}">logout</a>
       <a href="{% url 'user_info' %}">info</a>
-      <a href="{% url 'perfomance' %}">perfomance</a>
       <a href="{% url 'events' %}">schedule</a>
-      <a href="{% url 'groups' %}">groups</a>
       {% if user.is_superuser %}
         <br>
         Go to <a href="{% url 'admin:index' %}">admin</a> site.

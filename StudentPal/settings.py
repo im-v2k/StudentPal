@@ -40,9 +40,7 @@ INSTALLED_APPS = [
 
     'home',
     'userinfo',
-    'performance',
     'schedule',
-    'groups',
 ]
 
 MIDDLEWARE = [

@@ -3,10 +3,9 @@ from django import forms
 class event_details(forms.Form):
 	name = forms.CharField(max_length=30)
 	date = forms.DateField()
-	start_time = forms.DateTimeField()
-	end_time = forms.DateTimeField()
+	start_time = forms.TimeField()
+	end_time = forms.TimeField()
 	description = forms.CharField(widget=forms.Textarea)
-	get_notifications = forms.BooleanField(widget=forms.CheckboxInput)
 
 	def clean(self):
 		cleaned_data = super(event_details,self).clean()
