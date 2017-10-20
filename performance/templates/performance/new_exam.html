@@ -1,0 +1,18 @@
+{% extends 'performance/base.html' %}
+
+{% block title %}New Exam{% endblock %}
+
+{% block breadcrumb %}
+  <a href="{% url 'home' %}">Courses</a> / 
+  <a href="{% url 'course_exams' course.pk %}">{{ course.name }}</a> /
+  New exam
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+      <label for="id_exam">Exam name</label>
+      <input type="text" id="id_exam" name="exam">
+    <button type="submit" >Post</button>
+  </form>
+{% endblock %}
