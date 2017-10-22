@@ -1,0 +1,119 @@
+
+{% extends 'performance/base.html' %}
+
+{% block title %}
+  {{ course.name }} - {{ block.super }}
+{% endblock %}
+
+{% block head %}
+<style>
+    
+</style>
+{% endblock %}
+
+
+{% block breadcrumb %}
+  <a href="{% url 'home' %}">Courses</a>/
+  {{ course.name }}</br>
+{% endblock %}
+
+
+{% block content %}
+
+<a href="{% url 'new_exam' course.pk %}">New exam</a>
+<a href="{% url 'new_exam' course.pk %}">Charts</a>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Exam</th>
+        <th>Conducted date</th>
+        <th>weightage</th>
+        <th>% obtained</th>
+        <th>net score till now</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for exam in course.exam_set.all %}
+        <tr>
+          <td>{{exam.name}}</td>
+          <td>0</td>
+          <td>0</td>
+          <td>30</td>
+          <td>0</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+  exportEnabled: true,
+  animationEnabled: true,
+  title:{
+    text: "Your performance bro"
+  },
+  subtitles: [{
+    text: "Click Legend to Hide or Unhide Data Series"
+  }], 
+  axisX: {
+    title: "States",
+    crosshair: {
+      enabled: true,
+      snapToDataPoint: true
+    }
+  },
+  axisY: {
+    title: "Marks",
+    titleFontColor: "#4F81BC",
+    lineColor: "#4F81BC",
+    labelFontColor: "#4F81BC",
+    tickColor: "#4F81BC"
+  },
+  
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    itemclick: toggleDataSeries
+  },
+  data: [{
+    type: "line",
+    name: "Marks",
+    showInLegend: true,      
+    yValueFormatString: "#,##0.# ",
+    dataPoints: [
+    {% for exam in course.exam_set.all %}
+      { label: "{{ exam.name }}",  y: 59 },
+    {% endfor %}
+    ]
+  },
+  ]
+});
+chart.render();
+
+function toggleDataSeries(e) {
+  if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    e.dataSeries.visible = false;
+  } else {
+    e.dataSeries.visible = true;
+  }
+  e.chart.render();
+}
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; width: 45%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
+{% endblock %}
