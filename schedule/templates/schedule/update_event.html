@@ -1,13 +1,66 @@
 <html>
 <title> Schedule </title>
+
+<a href="{% url 'events' %}"> 
+	<button type="button"> Back </button>
+	</a> <br>
+
 <center>
-<body>
+<body style="background: rgb(250,144,144);">
 	<h1> Update an event </h1> <br> <br>
-	<form method="post">
+	<form action="{% url 'update_event' %}" method="post">
 	{% csrf_token %}
-	{{ form.as_ul }}
-	<button type="submit"> Done </button>
+	<table>
+	{{ form }}
+	</table>
+	<button type="submit"> Done </button> <br> <br>
 	</form>
+	<style type="text/css">
+table.hovertable {
+	-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+	border : none;
+	width: 100%;
+	color:#333333;
+	border-collapse: collapse;
+}
+table.hovertable th {
+	-moz-border-radius: 5px;
+	background-color:rgb(100,150,250);
+	padding: 8px;
+	border-color: #a9c6c9;
+}
+table.hovertable tr {
+	-moz-border-radius: 5px;
+	background-color:#d4e3e5;
+}
+table.hovertable td {
+	-moz-border-radius: 5px;
+	border-width: 1px;
+	padding: 8px;
+}
+</style>
+
+<table class="hovertable">
+	<tr style="text-align: left;">
+		<th> Name </th>
+		<th> Date </th>
+		<th> Start-Time </th>
+		<th> End-Time </th>
+		<th> Description </th>
+	</tr>
+{% for event in events %}
+<tr onmouseover="this.style.backgroundColor='rgb(195,221,250)';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+	<td> {{ event.name }} </td>
+ 	<td> {{ event.date }} </td>
+ 	<td> {{ event.start_time }} </td>
+ 	<td> {{ event.end_time }}  </td>
+ 	<td> {{ event.description }} </td>
+ </tr> 
+{% endfor %}
+</table>
+
 </body>
 </center>
 </html>

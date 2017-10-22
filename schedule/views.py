@@ -1,18 +1,50 @@
 from django.shortcuts import render,redirect,reverse
+import sys
+from django.http import HttpResponseRedirect
 from .forms import *
 from .models import *
+from datetime import datetime
 
 def events(request):
-	return render(request,'schedule/events.html')
+	time = datetime.now()
+	return render(request,'schedule/events.html',{'time' : time})
 def new_event(request):
 	form = event_details()
 	return render(request,'schedule/new_event.html',{'form' : form})
+
+def update_details(request):
+	form = update_detail()
+	events = Event.objects.all()
+	return render(request,'schedule/update_event.html',{'form': form,'events' : events})
+
 def update_event(request):
-	form = update_details()
-	return render(request,'schedule/update_event.html',{'form' : form})
+	if request.method == 'POST':
+		name = request.POST.get('name')
+		form = update_detail(request.POST)
+		if form.is_valid():
+			user = request.user
+			query = Event.objects.get(name = name)
+			form1  = update_detail(request.POST, instance = query)
+			form1.save()
+		return HttpResponseRedirect('')
+	else:
+		form = update_detail()
+		events = Event.objects.all()
+	return render(request,'schedule/update_event.html',{'events' : events,'form' : form})
+
 def delete_event(request):
-	form = delete_details()
-	return render(request,'schedule/delete_event.html',{'form' : form})
+	if request.method == 'POST':
+		name = request.POST.get('name')
+		form = delete_details(request.POST)
+		if form.is_valid():
+			user = request.user
+			query = Event.objects.get(name = name)
+			query.delete()
+		return HttpResponseRedirect('')
+	else:
+		form = delete_details()
+		events = Event.objects.all()
+	return render(request,'schedule/delete_event.html',{'events' : events,'form' : form})
 
 def create_event(request):
 	if request.method == 'POST':
@@ -27,7 +59,7 @@ def create_event(request):
 			event_obj = Event(user=user, name = name, date = date, start_time = start_time, end_time = end_time, description = description,)
 			event_obj.save()
 
-			return render(request,'schedule/created.html')
+			return HttpResponseRedirect('')
 	else:
 		form = event_details()
 
