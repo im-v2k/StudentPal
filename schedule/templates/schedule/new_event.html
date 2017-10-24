@@ -1,8 +1,29 @@
+{% load static %}
 <html>
-<body style="background: rgb(250,250,100);">
+<head>
+<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+#n{margin-left:15px;
+margin-top: 15px;}
+#navbarr {
+    font-family: 'Shadows Into Light', cursive;
+
+    }
+</style>
+
+</head>
+<body style="background: white;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbarr">
+      <div class="container">
+       <a class="navbar-brand" href="{% url 'homepage' %}" style="font-size:300%;";><b>StuDent Pal bro</b></a>
+        <a href="{% url 'homepage' %}" style="font-size:200%; color:#80D343;">Go to Home</a>
+      </div>
+    </nav>
 <title> Schedule </title>
 <a href="{% url 'events' %}"> 
-	<button type="button"> Back </button>
+	<button type="button" class="btn btn-success" id="n"> Back </button>
 	</a> <br>
 <center>
 	<h1> Add an event </h1> <br> <br>
@@ -11,7 +32,7 @@
 	<table>
 		{{ form }}
 	</table>
-	<button type="submit"> Done </button>
+	<button type="submit" class="btn btn-success" id="n"> Done </button>
 	</form>
 </center>
 </body>

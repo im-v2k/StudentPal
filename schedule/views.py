@@ -6,16 +6,7 @@ from .models import *
 from datetime import datetime
 
 def events(request):
-	time = datetime.now()
-	return render(request,'schedule/events.html',{'time' : time})
-def new_event(request):
-	form = event_details()
-	return render(request,'schedule/new_event.html',{'form' : form})
-
-def update_details(request):
-	form = update_detail()
-	events = Event.objects.all()
-	return render(request,'schedule/update_event.html',{'form': form,'events' : events})
+	return render(request,'schedule/events.html')
 
 def update_event(request):
 	if request.method == 'POST':
