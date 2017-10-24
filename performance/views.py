@@ -4,32 +4,38 @@ from .models import Semester, Course, Exam
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from io import BytesIO
+from django.db.models import Sum
 
 def home(request):
-    courses = Course.objects.all()
+    u = User.objects.get(username=request.user)
+    courses = u.semester_set.get(sem_no=3).course_set.all()
     return render(request, 'performance/home.html', {'courses': courses})
 
 def course_exams(request, pk):
     course = get_object_or_404(Course, pk=pk)
+    # items = Exam.objects.all().annotate(Sum('weightage'))
     return render(request, 'performance/exams.html', {'course': course})
 
 def new_exam(request, pk):
     course = get_object_or_404(Course, pk=pk)
 
     if request.method == 'POST':
-        name = request.POST['exam'],
-        #cond_date = request.POST['cond_date'],
-        #weightage = request.POST['weightage'],
-        #percentage = request.POST['percentage']
+        name = request.POST['exam']
+        weightage = request.POST['weightage']
+        marks_obt = request.POST['marks_obt']
+        max_marks = request.POST['max_marks']
+        comment = request.POST['comment']
+        
 
         user = User.objects.first()  #get the currently logged in user
 
         exam = Exam.objects.create(
             name=name,
             course=course,
-            #cond_date=cond_date,
-            #weightage=weightage,
-            #percentage=percentage,
+            weightage=weightage,
+            marks_obt=marks_obt,
+            max_marks=max_marks,
+            comment=comment,
         )
 
         #comment = Comment.objects.create(
@@ -45,12 +51,14 @@ def new_exam(request, pk):
 
 def new_course(request):
     if request.method == 'POST':
-        name = request.POST['subject']
+        name = request.POST['course_name']
+        teacher = request.POST['prof']
 
-        user = User.objects.first()  #get the currently logged in user
+        user = User.objects.get(username=request.user)  #get the currently logged in user
 
-        course = Course.objects.create(
+        course = user.semester_set.get(sem_no=3).course_set.create(
             name=name,
+            teacher=teacher,
         )
 
         course.save()

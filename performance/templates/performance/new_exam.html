@@ -2,6 +2,17 @@
 
 {% block title %}New Exam{% endblock %}
 
+
+{% block head %}
+<style>
+  #id_exam {margin-bottom:30px;}
+  #id_weight {margin-bottom:30px;margin-right:20px;}
+  #id_marks_obt {margin-bottom:30px;margin-right:20px;}
+  #id_max_marks {margin-bottom:30px;}
+  #id_comment {margin-bottom:30px;}
+</style>
+{% endblock %}
+
 {% block breadcrumb %}
   <a href="{% url 'home' %}">Courses</a> / 
   <a href="{% url 'course_exams' course.pk %}">{{ course.name }}</a> /
@@ -11,8 +22,21 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
-      <label for="id_exam">Exam name</label>
-      <input type="text" id="id_exam" name="exam">
-    <button type="submit" >Post</button>
+    <div class="form-group">
+      <input type="text" class="form-control" id="id_exam" name="exam" placeholder="Exam name" style="width: 300px;height: 60px;">
+
+      <input type="integer" id="id_weight" name="weightage" placeholder=" Weightage" style="width: 30%;height: 60px;">
+
+
+      <input type="integer" id="id_marks_obt" name="marks_obt" placeholder=" Marks obatined" style="width: 30%;height: 60px;">
+
+
+      <input type="integer" id="id_max_marks" name="max_marks" placeholder=" Maximum marks" style="width: 30%;height: 60px;">
+
+
+      <input type="text" class="form-control" id="id_comment" name="comment" placeholder="Comment" style="height: 60px;">
+
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
   </form>
 {% endblock %}

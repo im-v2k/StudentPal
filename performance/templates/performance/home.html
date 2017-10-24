@@ -1,19 +1,80 @@
 {% extends 'performance/base.html' %}
 
+{% block head %}
+<style>
+#newco{margin-bottom:30px;
+      background-color: #80D343;}
+
+
+input[type=button] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
+table {  
+    color: #333;
+    font-family: Helvetica, Arial, sans-serif;
+    width: 100%; 
+    border-collapse: 
+    collapse; border-spacing: 0; 
+    margin-bottom:50px;
+}
+
+td, th {  
+    border: 1px solid transparent; 
+    height: 50px; 
+    transition: all 0.3s;
+    text-align: center;  
+}
+
+th {  
+    background: #030303  ;
+    color: #F6FAF4;  
+    font-weight: bold;
+    text-align: center;
+}
+
+td {  
+    background: #FAFAFA;
+    text-align: center;
+}
+      
+tr:nth-child(even) td { background: #F1F1F1; }   
+
+      
+tr:nth-child(odd) td { background: #FEFEFE; }  
+
+tr td:hover { background: #D1D4CF; color: white; }  
+
+</style>
+{% endblock %}
+
+
 {% block breadcrumb %}
+
   <li>Courses</li>
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'new_course' %}">New Course</a>
 
+<form action="{% url 'new_course' %}" background-color="#80D343;">
+    <input type="submit" value="New Course" style="height: 37px; width: 10%;" id="newco"/>
+</form>
+
+ <center>
   <table border="1">
     <thead>
       <tr>
-        <th>Course</th>
-        <th>Comments</th>
-        <th>exams</th>
-        <th>Next Exam</th>
+        <th><center>Course</center></th>
+        <th><center>Prof name</center><center></th>
+        <th><center>No. of exams done</center></th>
+        <th><center>%%%%%%</center></th>
       </tr>
     </thead>
     <tbody>
@@ -21,141 +82,61 @@
         <tr>
           <td>
             <a href="{% url 'course_exams' course.pk %}">{{ course.name }}</a>
-            <small>{{ course.description }}</small>
           </td>
-          <td >0</td>
-          <td >0</td>
-          <td>0</td>
+          <td >{{course.teacher}}</td>
+          <td>{{ course.get_exams_count }}</td>
+          <td>{{course.get_perc}}</td>
+<!--
+          <td> {% for exxam in course.get_perc %}
+        {{exxam.weightage}}
+    {% endfor %}</td>
+
+          <td id="sum_{{forloop.counter}}"></td>
+
+
+          <td id="netscore"></td>
+          <script type="text/javascript" src="exams.html">
+            document.getElementById("netscore").innerHTML = totalscore;
+          </script>
+-->     
+<script type="text/javascript">
+  var cars="{{course.get_perc}}";
+  var numb=0;
+  var i;
+  for (i = 0; i < cars.length; i++) {
+    numb += cars[i].{{ weightage }};
+}
+document.getElementById("sum_{{forloop.counter}}").innerHTML = cars;
+</script>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+</center>
 
-<!DOCTYPE html>
-<html>
+
+
+
 <head>
 <script>
 window.onload = function () {
 
 var chart = new CanvasJS.Chart("chartContainer", {
-  exportEnabled: true,
   animationEnabled: true,
+  exportEnabled: true,
+  theme: "light1", // "light1", "light2", "dark1", "dark2"
   title:{
-    text: "Your performance bro ..."
-  },
-  subtitles: [{
-    text: ""
-  }], 
-  axisX: {
-    title: "Courses"
-  },
-  axisY: {
-    title: "Score till now",
-    titleFontColor: "#4F81BC",
-    lineColor: "#4F81BC",
-    labelFontColor: "#4F81BC",
-    tickColor: "#4F81BC"
-  },
-  
-  toolTip: {
-    shared: true
-  },
-  legend: {
-    cursor: "pointer",
-    itemclick: toggleDataSeries
+    text: "% in respective courses"
   },
   data: [{
-    type: "line",
-    name: "Score till now",
-    showInLegend: true,      
-    yValueFormatString: "#,##0.# Units",
+    type: "bar", //change type to bar, line, area, pie, etc
+    //indexLabel: "{y}", //Shows y value on all Data Points
+    indexLabelFontColor: "#5A5757",
+    indexLabelPlacement: "outside",
     dataPoints: [
     {% for course in courses %}
-      { label: "{{ course.name }}",  y: 19034.5 },
+      { label: "{{ course.name }}", y: {% widthratio course.get_exams_count 100 100 %} },
     {% endfor %}
-    ]
-  },
-  ]
-});
-chart.render();
-
-function toggleDataSeries(e) {
-  if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-    e.dataSeries.visible = false;
-  } else {
-    e.dataSeries.visible = true;
-  }
-  e.chart.render();
-}
-
-}
-</script>
-</head>
-<body>
-<div id="chartContainer" style="height: 370px; width: 45%;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</body>
-</html>
-
-<!--
-<!DOCTYPE HTML>
-<html>
-<head>  
-<script>
-window.onload = function () {
-
-var chart = new CanvasJS.Chart("chartContainer", {
-  animationEnabled: true,
-  title:{
-    text: "Stock Price of BMW - August"
-  },
-  axisX:{
-    valueFormatString: "DD MMM",
-    crosshair: {
-      enabled: true,
-      snapToDataPoint: true
-    }
-  },
-  axisY: {
-    title: "Closing Price (in USD)",
-    includeZero: false,
-    valueFormatString: "$##0.00",
-    crosshair: {
-      enabled: true,
-      snapToDataPoint: true,
-      labelFormatter: function(e) {
-        return "$" + CanvasJS.formatNumber(e.value, "##0.00");
-      }
-    }
-  },
-  data: [{
-    type: "area",
-    xValueFormatString: "DD MMM",
-    yValueFormatString: "$##0.00",
-    dataPoints: [
-      { x: new Date(2016, 07, 01), y: 76.727997 },
-      { x: new Date(2016, 07, 02), y: 75.459999 },
-      { x: new Date(2016, 07, 03), y: 76.011002 },
-      { x: new Date(2016, 07, 04), y: 75.751999 },
-      { x: new Date(2016, 07, 05), y: 77.500000 },
-      { x: new Date(2016, 07, 08), y: 77.436996 },
-      { x: new Date(2016, 07, 09), y: 79.650002 },
-      { x: new Date(2016, 07, 10), y: 79.750999 },
-      { x: new Date(2016, 07, 11), y: 80.169998 },
-      { x: new Date(2016, 07, 12), y: 79.570000 },
-      { x: new Date(2016, 07, 15), y: 80.699997 },
-      { x: new Date(2016, 07, 16), y: 79.686996 },
-      { x: new Date(2016, 07, 17), y: 78.996002 },
-      { x: new Date(2016, 07, 18), y: 78.899002 },
-      { x: new Date(2016, 07, 19), y: 77.127998 },
-      { x: new Date(2016, 07, 22), y: 76.759003 },
-      { x: new Date(2016, 07, 23), y: 77.480003 },
-      { x: new Date(2016, 07, 24), y: 77.623001 },
-      { x: new Date(2016, 07, 25), y: 76.408997 },
-      { x: new Date(2016, 07, 26), y: 76.041000 },
-      { x: new Date(2016, 07, 29), y: 76.778999 },
-      { x: new Date(2016, 07, 30), y: 78.654999 },
-      { x: new Date(2016, 07, 31), y: 77.667000 }
     ]
   }]
 });
@@ -163,11 +144,10 @@ chart.render();
 
 }
 </script>
-</head>
+
 <body>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<div id="chartContainer" style="height: 370px; width: 60%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>
--->
 {% endblock %}
