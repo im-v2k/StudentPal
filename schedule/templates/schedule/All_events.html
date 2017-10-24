@@ -1,21 +1,11 @@
 <html>
-<title> Schedule </title>
+<body style="background: rgb(100,100,100)">
 
 <a href="{% url 'events' %}"> 
 	<button type="button"> Back </button>
-	</a> <br>
+	</a> <br> <br>
 
-<center>
-<body style="background: rgb(250,144,144);">
-	<h1> Update an event </h1> <br> <br>
-	<form action="{% url 'update_event' %}" method="post">
-	{% csrf_token %}
-	<table>
-	{{ form }}
-	</table>
-	<button type="submit"> Done </button> <br> <br>
-	</form>
-	<style type="text/css">
+<style type="text/css">
 table.hovertable {
 	-moz-border-radius: 5px;
 -webkit-border-radius: 5px;
@@ -60,8 +50,31 @@ table.hovertable td {
  </tr> 
 {% endfor %}
 </table>
-
 </body>
-</center>
 </html>
-
+<!-- CSS goes in the document HEAD or added to your external stylesheet -->
+<!-- <html>
+<body>
+<center>
+<style type="text/css">
+table.hovertable {
+	border : none;
+	width: 100%;
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-collapse: collapse;
+}
+table.hovertable th {
+	background-color:#c3dde0;
+	padding: 8px;
+	border-color: #a9c6c9;
+}
+table.hovertable tr {
+	background-color:#d4e3e5;
+}
+table.hovertable td {
+	border-width: 1px;
+	padding: 8px;
+}
+</style>

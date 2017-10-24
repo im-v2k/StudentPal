@@ -1,18 +1,36 @@
 <html>
 <title> Schedule </title>
 <center>
-<body>
-	<h1> Schedule your events here </h1> <br> <br>
+
+<body style="background: white;">
+	<h1> Schedule your events here! </h1>  
+	<h2> <span id="clock"></span> <br> </h2>
 	<a href="{% url 'new_event' %}"> 
 	<button type="button"> Add Event </button>
 	</a> <br> <br>
-	<a href="{% url 'update_event' %}">
+	<a href="{% url 'update_details' %}">
 	<button type="button"> Update Event </button>
 	</a> <br> <br>
 	<a href="{% url 'delete_event' %}"> 
 	<button type="button"> Delete Event </button>
 	</a> <br> <br>
+	<a href="{% url 'all_events' %}">
 	<button type="button"> All Events </button>
+	</a>
 </body>
 </center>
 </html>
+<script type="text/javascript">
+	var clockElement = document.getElementById("clock")
+	function updateClock ( clock ) {
+		 d = new Date();
+		 utc = d.getTime();
+		 bombay = utc + (3600000*5.5);
+    	 time = new Date(bombay).toLocaleTimeString();
+    	 date = new Date(bombay).toDateString();
+    	 clockElement.innerHTML = date + "," + time;
+	}
+	setInterval(function () {
+    updateClock( clockElement );
+	}, 1);
+</script>
