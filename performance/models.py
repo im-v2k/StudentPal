@@ -15,22 +15,24 @@ class Semester(models.Model):
 class Course(models.Model):
     #user = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True)
     sem = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True)
-    course_type = models.CharField(max_length=10,
-                                   choices=(('theory', 'Theory'),
-                                            ('lab', 'Lab')))
     name = models.CharField(max_length=50, default='')
-    description = models.TextField(blank=True, default='')
-    course_credits = models.PositiveSmallIntegerField(default=0)
-    grade_obt = models.PositiveSmallIntegerField(default=0)
+    #course_credits = models.PositiveSmallIntegerField(default=0)
+    #grade_obt = models.PositiveSmallIntegerField(default=0)
     teacher = models.CharField(max_length=50, default='')
+    comment = models.TextField(default='')
 
     def __str__(self):
         return self.name
+    def get_exams_count(self):
+        return Exam.objects.filter(course__name=self).count()
+    def get_perc(self):
+        return list(Exam.objects.filter(course__name=self))
 
 
 class Exam(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=30,)
+    weightage = models.PositiveSmallIntegerField(default=0)
     max_marks = models.PositiveSmallIntegerField(default=0)
     marks_obt = models.PositiveSmallIntegerField(
         default=0,

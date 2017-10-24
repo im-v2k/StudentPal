@@ -1,13 +1,65 @@
-
 {% extends 'performance/base.html' %}
+
 
 {% block title %}
   {{ course.name }} - {{ block.super }}
 {% endblock %}
 
+
 {% block head %}
 <style>
-    
+#newco{margin-bottom:30px;
+      background-color: #80D343;}
+#newco2{margin-bottom:30px;
+      background-color: #80D343;}
+
+
+input[type=button] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
+table {  
+    color: #333;
+    font-family: Helvetica, Arial, sans-serif;
+    width: 100%; 
+    border-collapse: 
+    collapse; border-spacing: 0; 
+    margin-bottom:50px;
+}
+
+td, th {  
+    border: 1px solid transparent; 
+    height: 50px; 
+    transition: all 0.3s;
+    text-align: center;  
+}
+
+th {  
+    background: #030303  ;
+    color: #F6FAF4;  
+    font-weight: bold;
+    text-align: center;
+}
+
+td {  
+    background: #FAFAFA;
+    text-align: center;
+}
+      
+tr:nth-child(even) td { background: #F1F1F1; }   
+
+      
+tr:nth-child(odd) td { background: #FEFEFE; }  
+
+tr td:hover { background: #D1D4CF; color: white; }  
+
 </style>
 {% endblock %}
 
@@ -19,33 +71,46 @@
 
 
 {% block content %}
+<form action="{% url 'new_exam' course.pk %}">
+    <input type="submit" value="New Exam" style="height: 37px; width: 10%;" id="newco"/>
+</form>
 
-<a href="{% url 'new_exam' course.pk %}">New exam</a>
-<a href="{% url 'new_exam' course.pk %}">Charts</a>
+<script type="text/javascript">
+  var totalscore = 0;
+</script>
 
   <table border="1">
     <thead>
       <tr>
-        <th>Exam</th>
-        <th>Conducted date</th>
-        <th>weightage</th>
-        <th>% obtained</th>
-        <th>net score till now</th>
+        <th><center>Exam</center></th>
+        <th><center>weightage</center></th>
+        <th><center>Marks obtainded</center></th>
+        <th><center>Max marks</center></th>
+        <th><center>% obtained</center></th>
+        <th><center>net score till now</center></th>
+        <th><center>Comment</center></th>
       </tr>
     </thead>
     <tbody>
       {% for exam in course.exam_set.all %}
         <tr>
           <td>{{exam.name}}</td>
-          <td>0</td>
-          <td>0</td>
-          <td>30</td>
-          <td>0</td>
+          <td id='weightage_{{forloop.counter}}'>{{exam.weightage}}</td>
+          <td>{{exam.marks_obt}}</td>
+          <td>{{exam.max_marks}}</td>
+          <td id='percent_obt_{{forloop.counter}}'>{% widthratio exam.marks_obt exam.max_marks 100 %}</td>
+          <td id='till_now_{{forloop.counter}}'></td>
+          <td>{{exam.comment}}</td>
+          <script type="text/javascript">
+            var weightage = parseInt(document.getElementById('weightage_{{forloop.counter}}').innerHTML);
+            var percentage = parseInt(document.getElementById('percent_obt_{{forloop.counter}}').innerHTML);
+            document.getElementById('till_now_{{forloop.counter}}').innerHTML= totalscore+weightage*percentage/100;
+            totalscore = totalscore+weightage*percentage/100;
+          </script>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-
 
 <!DOCTYPE html>
 <html>
@@ -59,11 +124,9 @@ var chart = new CanvasJS.Chart("chartContainer", {
   title:{
     text: "Your performance bro"
   },
-  subtitles: [{
-    text: "Click Legend to Hide or Unhide Data Series"
-  }], 
+  
   axisX: {
-    title: "States",
+    title: "Exams",
     crosshair: {
       enabled: true,
       snapToDataPoint: true
@@ -74,7 +137,8 @@ var chart = new CanvasJS.Chart("chartContainer", {
     titleFontColor: "#4F81BC",
     lineColor: "#4F81BC",
     labelFontColor: "#4F81BC",
-    tickColor: "#4F81BC"
+    tickColor: "#4F81BC",
+    min: 10,
   },
   
   toolTip: {
@@ -86,12 +150,12 @@ var chart = new CanvasJS.Chart("chartContainer", {
   },
   data: [{
     type: "line",
-    name: "Marks",
+    name: "% obtained",
     showInLegend: true,      
     yValueFormatString: "#,##0.# ",
     dataPoints: [
     {% for exam in course.exam_set.all %}
-      { label: "{{ exam.name }}",  y: 59 },
+      { label: "{{ exam.name }}",  y: {% widthratio exam.marks_obt exam.max_marks 100 %} },
     {% endfor %}
     ]
   },
