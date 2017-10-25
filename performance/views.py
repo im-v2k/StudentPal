@@ -2,9 +2,11 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Semester, Course, Exam
 from reportlab.pdfgen import canvas
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from io import BytesIO
 from django.db.models import Sum
+import os, subprocess
+from django.core.files.storage import FileSystemStorage
 
 def home(request):
     u = User.objects.get(username=request.user)
@@ -65,11 +67,28 @@ def new_course(request):
         return redirect('home')
     return render(request, 'performance/new_course.html')
 
+def som_view(request):
+    subprocess.call('cd static/',shell=True)
+    subprocess.call('pdflatex texfile',shell=True)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+    return response
 def some_view(request):
+    subprocess.call('cd static/',shell=True)
+    subprocess.call('pdflatex texfile',shell=True)
+    fs = FileSystemStorage()
+    filename = 'texfile.pdf'
+    if fs.exists(filename):
+        with fs.open(filename) as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+            return response
+    else:
+        return HttpResponseNotFound('The requested pdf was not found in our server.')
+    """
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="resume.pdf"'
-
     buffer = BytesIO()
 
     # Create the PDF object, using the BytesIO object as its "file."
@@ -77,7 +96,8 @@ def some_view(request):
 
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "Hello world.")
+    p.drawString(300, 500, "Hello world.")
+    p.drawString(300, 500, "HBVJHVJGVJKH")
 
     # Close the PDF object cleanly.
     p.showPage()
@@ -88,3 +108,15 @@ def some_view(request):
     buffer.close()
     response.write(pdf)
     return response
+
+    response = HttpResponse(content_type='application/pdf')
+    #today = date.today()
+    filename = 'pdf_demo' #+ today.strftime('%Y-%m-%d')
+    response['Content-Disposition'] = 'attachement; filename={0}.pdf'.format(filename)
+    buffer = BytesIO()
+    report = PdfPrint(buffer, 'A4')
+    pdf = report.report(weather_period, 'Weather statistics data')
+    response.write(pdf)
+    return response
+    """
+    

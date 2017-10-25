@@ -8,6 +8,9 @@
 
 {% block head %}
 <style>
+.canvasjs-chart-credit {
+   display: none;
+}
 #newco{margin-bottom:30px;
       background-color: #80D343;}
 #newco2{margin-bottom:30px;
@@ -98,7 +101,7 @@ tr td:hover { background: #D1D4CF; color: white; }
           <td id='weightage_{{forloop.counter}}'>{{exam.weightage}}</td>
           <td>{{exam.marks_obt}}</td>
           <td>{{exam.max_marks}}</td>
-          <td id='percent_obt_{{forloop.counter}}'>{% widthratio exam.marks_obt exam.max_marks 100 %}</td>
+          <td id='percent_obt_{{forloop.counter}}'>{{ exam.get_percent }}</td>
           <td id='till_now_{{forloop.counter}}'></td>
           <td>{{exam.comment}}</td>
           <script type="text/javascript">
@@ -115,14 +118,16 @@ tr td:hover { background: #D1D4CF; color: white; }
 <!DOCTYPE html>
 <html>
 <head>
+
 <script>
+
 window.onload = function () {
 
 var chart = new CanvasJS.Chart("chartContainer", {
   exportEnabled: true,
   animationEnabled: true,
   title:{
-    text: "Your performance bro"
+    text: "Your performance"
   },
   
   axisX: {
@@ -134,10 +139,10 @@ var chart = new CanvasJS.Chart("chartContainer", {
   },
   axisY: {
     title: "Marks",
-    titleFontColor: "#4F81BC",
-    lineColor: "#4F81BC",
-    labelFontColor: "#4F81BC",
-    tickColor: "#4F81BC",
+    titleFontColor: "#020202",
+    lineColor: "#020202",
+    labelFontColor: "#020202",
+    tickColor: "#020202",
     min: 10,
   },
   
@@ -146,10 +151,11 @@ var chart = new CanvasJS.Chart("chartContainer", {
   },
   legend: {
     cursor: "pointer",
-    itemclick: toggleDataSeries
+    itemclick: toggleDataSeries,
   },
   data: [{
     type: "line",
+    colour:"#020202",
     name: "% obtained",
     showInLegend: true,      
     yValueFormatString: "#,##0.# ",
@@ -162,6 +168,29 @@ var chart = new CanvasJS.Chart("chartContainer", {
   ]
 });
 chart.render();
+var chart3 = new CanvasJS.Chart("chartContainer3", {
+  theme: "light1", // "light1", "light2", "dark1", "dark2"
+  exportEnabled: true,
+  animationEnabled: true,
+  title: {
+    text: "Weightage of each exam till now"
+  },
+  data: [{
+    type: "pie",
+    startAngle: 25,
+    toolTipContent: "<b>{label}</b>: {y}%",
+    showInLegend: "true",
+    legendText: "{label}",
+    indexLabelFontSize: 16,
+    indexLabel: "{label} - {y}%",
+    dataPoints: [
+    {% for exam in course.exam_set.all %}
+      { y: {% widthratio exam.weightage 100 100 %}, label: "{{exam.name}}" },
+    {% endfor %}
+    ]
+  }]
+});
+chart3.render();
 
 function toggleDataSeries(e) {
   if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -176,7 +205,11 @@ function toggleDataSeries(e) {
 </script>
 </head>
 <body>
-<div id="chartContainer" style="height: 370px; width: 45%;"></div>
+  <div id="chartContainer3" style="height: 370px; width: 100%;"></div>
+  </br></br></br></br>
+
+<div id="chartContainer" style="height: 370px; width: 100%;"></div></br></br></br></br>
+
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>
