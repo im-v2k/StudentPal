@@ -30,7 +30,7 @@ def update_event(request):
 	else:
 		form = update_detail()
 		events = Event.objects.all()
-	return render(request,'schedule/update_event.html',{'events' : events,'form' : form})
+	return render(request, 'schedule/update_event.html', {'events' : events,'form' : form})
 
 def delete_event(request):
 	if request.method == 'POST':

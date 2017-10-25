@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<title>My groups</title>
+<body>
+	<h2>You're in the following groups:</h2>
+	<ul>
+		{% for invite in accepted_invites %}
+			<li>{{ invite.group.name }}. You were invited by {{ invite.sender.username }}.</li>
+		{% empty %}
+			<p>You're not in any group. Create one?</p>
+		{% endfor %}
+	</ul>
+
+	<h2>Pending invites:</h2>
+	<ul>
+		{% for invite in pending_invites %}
+			<li>You're invited to the group {{ invite.group.name }} by {{ invite.sender.username }}. Accept?</li>
+		{% empty %}
+			<p>You don't have any pending requests.</p>
+		{% endfor %}
+	</ul>
+
+	<h2>Rejected invites:</h2>
+	<ul>
+		{% for invite in rejected_invites %}
+			<li>You rejected an invite to the group {{ invite.group.name }} sent by {{ invite.sender.username }}.</li>
+		{% empty %}
+			<p>You did not reject any invites.</p>
+		{% endfor %}
+	</ul>
+</body>
+</html>

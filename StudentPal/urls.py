@@ -15,14 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from home import views as home_views
-from django.contrib.auth import views as auth_views
-from django.views.generic.base import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('home.urls')),
     url(r'', include('userinfo.urls')),
     url(r'', include('schedule.urls')),
-    url(r'^performance/', include('performance.urls'))
+    url(r'^performance/', include('performance.urls')),
+    url(r'^groups/', include('groups.urls'))
 ]

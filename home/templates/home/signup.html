@@ -9,10 +9,10 @@
         {% for field in form %}
             <p>
                 {{ field.label_tag }}<br>
-                {{ field }}<br>
+                {{ field }}
                 {% autoescape off %}
                 {% if field.help_text %}
-                    <small style="color: grey">{{ field.help_text }}</small>
+                    <span style="color: grey">{{ field.help_text }}</span>
                 {% endif %}
                 {% endautoescape %}
                 {% for error in field.errors %}

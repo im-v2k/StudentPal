@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'userinfo',
     'schedule',
     'performance',
+    'groups',
 ]
 
 MIDDLEWARE = [

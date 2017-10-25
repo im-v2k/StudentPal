@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<title>New group</title>
+<body>
+	<h2>Create a new group</h2>
+	<form method="post">
+		{% csrf token %}
+		<label for="id_name">Group name</label>
+		<input type="text" id="id_name" name="name">
+		<label for="id_description">Group name</label>
+		<input type="text" id="id_description" name="description">*
+		<button type="submit">Create group</button>
+	</form>
+</body>
