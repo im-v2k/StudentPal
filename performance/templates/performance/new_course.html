@@ -1,6 +1,13 @@
 {% extends 'performance/base.html' %}
 
 {% block title %}New Course{% endblock %}
+{% block head %}
+<style>
+  #id_course_name {margin-bottom:30px;}
+  #id_prof {margin-bottom:30px;}
+</style>
+
+{% endblock %}
 
 {% block breadcrumb %}
   <a href="{% url 'home' %}">Courses</a>/
@@ -8,11 +15,16 @@
 {% endblock %}
 
 {% block content %}
+
   <form method="post">
     {% csrf_token %}
-      <label for="id_subject">Course name</label>
-      <input type="text" id="id_subject" name="subject">
-    
-    <button type="submit" >Post</button>
+  <div class="form-group">
+      <input type="text" class="form-control" id="id_course_name" name="course_name" placeholder="Course name" style="width: 300px;height: 60px;">
+
+
+      <input type="text" class="form-control" id="id_prof" name="prof" placeholder="Instructor name" style="height: 60px;width: 60%;">    
+    <button type="submit" class="btn btn-success">Post</button>
+
+  </div>
   </form>
 {% endblock %}
