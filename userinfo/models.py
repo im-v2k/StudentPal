@@ -9,25 +9,21 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	dob = models.DateField(blank=True, null=True)
-	#dob = models.DateField(blank=True, null=True, input_formats=settings.DATE_INPUT_FORMATS)
 	univ = models.CharField(blank=True, max_length=100, default='')
 	current_sem = models.PositiveSmallIntegerField(
 		default=0,
 		validators=[MaxValueValidator(10)]
 		)
 	gender = models.CharField(
-        max_length=20,
-		choices=(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'), ('I prefer not to say', 'I prefer not to say')),
+        max_length=1,
+		choices=(('M', 'Male'), ('F', 'Female'), ('O', 'Other'), ('N', 'I prefer not to say')),
         blank=True,
 		default='')
 	aboutme = models.TextField(blank=True, default='')
-	#mobile = models.IntegerField(blank=True, null=True)
-
+	
 	def __str__(self):
 		return "%s's profile" %self.user
 
-#	class Meta(User.Meta):
-#		pass
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

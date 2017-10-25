@@ -1,26 +1,98 @@
+{% load static %}
 <html>
 <title> Schedule </title>
 <center>
+<style>
+#navbarr {
+    font-family: 'Shadows Into Light', cursive;
 
+    }
+    </style>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
 <body style="background: white;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbarr">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'homepage' %}" style="font-size:300%;";><b>StuDent Pal bro</b></a>
+        <a href="{% url 'homepage' %}" style="font-size:200%; color:#80D343;">Go to Home</a>
+      </div>
+    </nav>
+
 	<h1> Schedule your events here! </h1>  
 	<h2> <span id="clock"></span> <br> </h2>
-	<a href="{% url 'new_event' %}"> 
-	<button type="button"> Add Event </button>
-	</a> <br> <br>
-	<a href="{% url 'update_details' %}">
-	<button type="button"> Update Event </button>
+	<a href="{% url 'create' %}"> 
+	<button type="submit" class="btn btn-success"> Add Event </button>
+	</a> <br> <br> 
+	<a href="{% url 'update_event' %}">
+	<button type="button" class="btn btn-success"> Update Event </button>
 	</a> <br> <br>
 	<a href="{% url 'delete_event' %}"> 
-	<button type="button"> Delete Event </button>
+	<button type="button" class="btn btn-success"> Delete Event </button>
 	</a> <br> <br>
-	<a href="{% url 'all_events' %}">
-	<button type="button"> All Events </button>
-	</a>
+	<span style="width : 90%">
+<center>
+	<style type="text/css">
+#navbarr {
+    font-family: 'Shadows Into Light', cursive;
+
+    }
+#n{margin-left:15px;
+margin-top: 15px;}
+
+table.hovertable {
+	-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+	width: 75%;
+	border : none;
+	color:#333333;
+	border-collapse: collapse;
+}
+table.hovertable th {
+	-moz-border-radius: 5px;
+	background-color:rgb(100,150,250);
+	padding: 8px;
+	border-color: #a9c6c9;
+}
+table.hovertable tr {
+	-moz-border-radius: 5px;
+	background-color:#d4e3e5;
+}
+table.hovertable td {
+	-moz-border-radius: 5px;
+	border-width: 1px;
+	padding: 8px;
+}
+</style>
+
+<table class="hovertable">
+	<tr style="text-align: left;">
+		<th> Name </th>
+		<th> Date </th>
+		<th> Start-Time </th>
+		<th> End-Time </th>
+		<th> Description </th>
+	</tr>
+{% for event in events %}
+<tr onmouseover="this.style.backgroundColor='rgb(195,221,250)';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+	<td> {{ event.name }} </td>
+ 	<td> {{ event.date }} </td>
+ 	<td> {{ event.start_time }} </td>
+ 	<td> {{ event.end_time }}  </td>
+ 	<td> {{ event.description }} </td>
+ </tr> 
+{% endfor %}
+</table>
+</center>
+</span>
 </body>
 </center>
 </html>
 <script type="text/javascript">
+
 	var clockElement = document.getElementById("clock")
 	function updateClock ( clock ) {
 		 d = new Date();
@@ -28,7 +100,7 @@
 		 bombay = utc + (3600000*5.5);
     	 time = new Date(bombay).toLocaleTimeString();
     	 date = new Date(bombay).toDateString();
-    	 clockElement.innerHTML = date + "," + time;
+    	 clockElement.innerHTML = date + ", " + time;
 	}
 	setInterval(function () {
     updateClock( clockElement );
