@@ -27,10 +27,26 @@ margin-top: 15px;}
 	</a> <br>
 <center>
 	<h1> Add an event </h1> <br> <br>
+	{% if messages %}
+    {% for message in messages %}
+    <p style="color: red;">{{ message }} </p>
+    {% endfor %}
+{% endif %}
 	<form action="{% url 'create' %}" method="post">
 	{% csrf_token %}
 	<table>
-		{{ form }}
+	{% for field in form %}
+	<tr>
+		<td> {{ field.label_tag }} </td>
+		<td> {{ field }} 
+		{% if forloop.counter == 2 %}
+		<small style="color : grey">Date format is YYYY-MM-DD</span>
+		{% elif forloop.counter == 3 or forloop.counter == 4 %}
+		<small style="color : grey">Time format is HH:MM:SS</span>
+		{% endif %}
+		</td> 
+	</tr>
+	{% endfor %}
 	</table>
 	<button type="submit" class="btn btn-success" id="n"> Done </button>
 	</form>
