@@ -15,6 +15,14 @@ class Invite(models.Model):
     group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE, related_name='groups')
     is_accepted = models.BooleanField(default=False)
     is_rejected = models.BooleanField(default=False)
+    is_requested = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s's invitation sent to %s for joining the group '%s'" %(self.sender.username, self.invitee.username, self.group.name)
+
+class FakeCourse(models.Model):
+    name = models.CharField(max_length=20, default='')
+    group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Course '%s' in the group '%s'" %(self.name, self.group.name)

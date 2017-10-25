@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<title>{{ group.name }}</title>
+<body>
+	<h1>{{ group.name }}</h1>
+	<h2>Group members</h2>
+	<ol>
+		{% for invite in accepted_invites %}
+			<li>{{ invite.invitee.username }}</li>
+		{% endfor %}
+	</ol>
+	{% if check %}
+		You're a member of this group.
+	{% else %}
+		You're not a member.
+	{% endif %} 
+</body>

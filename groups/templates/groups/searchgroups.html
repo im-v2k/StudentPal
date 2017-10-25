@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<title>Search result</title>
+<body>
+	<h3>Search results for '{{ string }}':</h3>
+	<ul>
+		{% for group in groups %}
+			<li>{{ group.name }}</li>
+		{% empty %}
+			<p>No groups found</p>
+		{% endfor %}
+	</ul>
+</body>
+</html>

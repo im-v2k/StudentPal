@@ -4,8 +4,10 @@
 <body>
 <center>
     {% if user.is_authenticated %}
-        <form>
+        <form method="post">
+            {% csrf_token %}
         <table>
+            {{ userform }}
             {{ info }}
         </table>
             <button type="submit" name="edit" {% if enable %} disabled {% endif %}>edit</button>

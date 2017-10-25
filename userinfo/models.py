@@ -16,8 +16,8 @@ class Profile(models.Model):
 		validators=[MaxValueValidator(10)]
 		)
 	gender = models.CharField(
-        max_length=20,
-		choices=(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other'), ('I prefer not to say', 'I prefer not to say')),
+        max_length=1,
+		choices=(('M', 'Male'), ('F', 'Female'), ('O', 'Other'), ('N', 'I prefer not to say')),
         blank=True,
 		default='')
 	aboutme = models.TextField(blank=True, default='')

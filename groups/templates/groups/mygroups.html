@@ -2,28 +2,45 @@
 <html>
 <title>My groups</title>
 <body>
+	<form method="post" action="{% url 'search_groups' %}">
+		{% csrf_token %}
+		{{ search_form.as_p }}
+		<button type="submit">Search</button>
+	</form>
 	<h2>You're in the following groups:</h2>
 	<ul>
 		{% for invite in accepted_invites %}
-			<li>{{ invite.group.name }}. You were invited by {{ invite.sender.username }}.</li>
+			{% if invite.sender.username == invite.invitee.username %}
+				<li><a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a>. You created the group.</li>
+			{% else %}
+				<li><a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a>. You were invited by <a href=''>{{ invite.sender.username }}</a>.</li>
+			{% endif %}
 		{% empty %}
-			<p>You're not in any group. Create one?</p>
+			<p>You're not in any group.</p>
 		{% endfor %}
+		<p><a href='new'>Create</a> a new group.</p>
 	</ul>
 
 	<h2>Pending invites:</h2>
 	<ul>
 		{% for invite in pending_invites %}
-			<li>You're invited to the group {{ invite.group.name }} by {{ invite.sender.username }}. Accept?</li>
+			<li>
+				<form method="post">
+					{% csrf_token %}
+					<p>You're invited to the group <a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a> by <a href=''>{{ invite.sender.username }}</a>.
+					<button type="submit" name="accept_{{ invite.group.pk }}">Accept</button>
+					<button type="submit" name="reject_{{ invite.group.pk }}">Reject</button></p>
+				</form>
+			</li>
 		{% empty %}
-			<p>You don't have any pending requests.</p>
+			<p>You don't have any pending invites.</p>
 		{% endfor %}
 	</ul>
 
 	<h2>Rejected invites:</h2>
 	<ul>
 		{% for invite in rejected_invites %}
-			<li>You rejected an invite to the group {{ invite.group.name }} sent by {{ invite.sender.username }}.</li>
+			<li>You rejected an invite to the group <a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a> sent by <a href=''>{{ invite.sender.username }}</a>.</li>
 		{% empty %}
 			<p>You did not reject any invites.</p>
 		{% endfor %}

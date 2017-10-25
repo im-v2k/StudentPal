@@ -10,3 +10,6 @@ class new_group(forms.Form):
         description = cleaned_data.get('description')
         if not name:
             raise forms.ValidationError('This has to be filled')
+
+class search_group(forms.Form):
+    string = forms.CharField(max_length=50, label="Find a group ")

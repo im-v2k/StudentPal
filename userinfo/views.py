@@ -6,17 +6,22 @@ from .models import *
 from datetime import datetime
 
 def info(request):
-	if 'edit' in request.POST:
-		disable = false
-		info = userinfo()
-		user = User()
-		return render(request, 'userinfo/info.html',{'info' : info,'disable' : disable,'user': user})
-	elif 'save' in request.POST:
-		disable = true
-		info = userinfo()
-		user = abc()
-		return render(request, 'userinfo/info.html',{'info' : info,'disable' : disable,'user' : user})
+	if request.user.is_authenticated():
+		if 'edit' in request.POST:
+			disable = False
+			info = userinfo()
+			userform = abc()
+			return render(request, 'userinfo/info.html',{'info' : info,'disable' : disable,'userform': userform})
+		elif 'save' in request.POST:
+			disable = True
+			info = userinfo()
+			userform = abc()
+			return render(request, 'userinfo/info.html',{'info' : info,'disable' : disable,'userform' : userform})
+		else:
+			user = request.user
+			profile = user.profile
+			info = userinfo(instance=profile)
+			userform = abc(instance=user)
+			return render(request, 'userinfo/info.html',{'info' : info,'userform' : userform})
 	else:
-		info = userinfo()
-		user = abc()
-		return render(request, 'userinfo/info.html',{'info' : info,'user' : user})
+		return render(request, 'userinfo/info.html')
