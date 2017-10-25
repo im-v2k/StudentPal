@@ -2,16 +2,24 @@
 <html>
 <title>Personal Info</title>
 <body>
+<a href="{% url 'homepage' %}">
+    <button type="button" id="n"> Back </button>
+    </a> <br>
 <center>
+{% if messages %}
+    {% for message in messages %}
+    <p style="color: red;">{{ message }} </p>
+    {% endfor %}
+{% endif %}
     {% if user.is_authenticated %}
-        <form method="post">
-            {% csrf_token %}
+        <form method="POST">
+        {% csrf_token %}
         <table>
-            {{ userform }}
-            {{ info }}
+            {{ info2 }}
+            {{ info1 }}
         </table>
-            <button type="submit" name="edit" {% if enable %} disabled {% endif %}>edit</button>
-            <button type="submit" name="save" {% if not enable %} disabled {% endif %}>save</button>
+            <button type="submit" name="edit" {% if a %} disabled {% endif %}>edit</button>
+            <button type="submit" name="save" {% if not a %} disabled {% endif %}>save</button>
         </form>
     </table>
     {% else %}

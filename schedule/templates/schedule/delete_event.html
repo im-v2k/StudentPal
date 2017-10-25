@@ -18,6 +18,8 @@
 	<button type="button" class="btn btn-success" id="n"> Back </button>
 	</a> <br>
 
+<span style="float: left;
+			margin-left: 80px">
 <center>
 	<h1> delete an event </h1> <br> <br>
 	<form method="post">
@@ -25,6 +27,16 @@
 	{{ form }}
 	<button type="submit" class="btn btn-success" id="n"> Done </button> <br> <br>
 	</form>
+	{% if messages %}
+    {% for message in messages %}
+    <p style="color: red;">{{ message }} </p>
+    {% endfor %}
+{% endif %}
+</center>
+</span>
+<span style="float: right;
+			margin-right: 90px;">
+<center>
 	<style type="text/css">
 table.hovertable {
 	-moz-border-radius: 5px;
@@ -78,5 +90,6 @@ margin-top: 15px;}
 </table>
 
 </center>
+</span>
 </body>
 </html>

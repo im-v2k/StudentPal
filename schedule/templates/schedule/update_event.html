@@ -17,17 +17,40 @@
 <a href="{% url 'events' %}"> 
 	<button type="button" id="n" class="btn btn-success"> Back </button>
 	</a> <br>
-
-
+<span style="float: left;
+			width: 50%;
+			margin-right: 40px">
 <center>
-	<h1> Update an event </h1> <br> <br>
+
+	<h1> Update an event </h1> <br> 
+	{% if messages %}
+    {% for message in messages %}
+    <p style="color: red;">{{ message }} </p>
+    {% endfor %}
+{% endif %}
 	<form action="{% url 'update_event' %}" method="post">
 	{% csrf_token %}
 	<table>
-	{{ form }}
+	{% for field in form %}
+	<tr>
+		<td> {{ field.label_tag }} </td>
+		<td> {{ field }} 
+		{% if forloop.counter == 2 %}
+		<small style="color : grey">Date format is YYYY-MM-DD</span>
+		{% elif forloop.counter == 3 or forloop.counter == 4 %}
+		<small style="color : grey">Time format is HH:MM:SS</span>
+		{% endif %}
+		</td> 
+	</tr>
+	{% endfor %}
 	</table>
-	<button type="submit" class="btn btn-success" id="n"> Done </button> <br> <br>
+	<button type="submit" class="btn btn-success" id="n"> Done </button> 
 	</form>
+</center>
+</span>
+<span style="float: right;
+			margin-right: 40px">
+<center>
 	<style type="text/css">
 #navbarr {
     font-family: 'Shadows Into Light', cursive;
@@ -80,8 +103,8 @@ table.hovertable td {
  </tr> 
 {% endfor %}
 </table>
-
-</body>
 </center>
+</span>
+</body>
 </html>
 
