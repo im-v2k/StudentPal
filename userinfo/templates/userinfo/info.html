@@ -1,9 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-<title>Personal Info</title>
+<head>
+
+  <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %}</title>
+  <style>
+  #n{margin-left:15px;
+margin-top: 15px;}
+    #navbarr {
+    font-family: 'Shadows Into Light', cursive;
+    }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
 <body>
-<a href="{% url 'homepage' %}">
-    <button type="button" id="n"> Back </button>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbarr">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}" style="font-size:300%;";><b>StuDent Pal</b></a>
+      </div>
+  </nav>
+
+<a href="{% url 'homepage' %}"> 
+    <button type="button" id="n" class="btn btn-success"> Back </button>
     </a> <br>
 <center>
 {% if messages %}
@@ -15,11 +36,13 @@
         <form method="POST">
         {% csrf_token %}
         <table>
+          <div class="form-group">
             {{ info2 }}
             {{ info1 }}
+          </div>
         </table>
-            <button type="submit" name="edit" {% if a %} disabled {% endif %}>edit</button>
-            <button type="submit" name="save" {% if not a %} disabled {% endif %}>save</button>
+            <button class="btn btn-success" type="submit" name="edit" {% if a %} disabled {% endif %}>edt</button>
+            <button class="btn btn-success" type="submit" name="save" {% if not a %} disabled {% endif %}>save</button>
         </form>
     </table>
     {% else %}

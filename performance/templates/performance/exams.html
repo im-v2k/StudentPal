@@ -185,7 +185,7 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
     indexLabel: "{label} - {y}%",
     dataPoints: [
     {% for exam in course.exam_set.all %}
-      { y: {% widthratio exam.weightage 100 100 %}, label: "{{exam.name}}" },
+      { y: {% widthratio exam.weightage exam.max_marks exam.marks_obt %}, label: "{{exam.name}}" },
     {% endfor %}
     ]
   }]

@@ -3,6 +3,7 @@
 {% block title %}Student Pal{% endblock %}
 
 {% block content %}
+<center>
   <h2>Home</h2>
   <header>
     {% if user.is_authenticated %}
@@ -24,4 +25,5 @@
       <p>Not a member? <a href="{% url 'signup' %}">Sign up</a>.</p>
     {% endif %}
   </header>
+ </center>
 {% endblock %}

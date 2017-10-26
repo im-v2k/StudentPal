@@ -129,5 +129,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/performance/'
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')

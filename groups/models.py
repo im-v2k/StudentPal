@@ -22,7 +22,7 @@ class Invite(models.Model):
 
 class FakeCourse(models.Model):
     name = models.CharField(max_length=20, default='')
-    group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE)
+    group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "Course '%s' in the group '%s'" %(self.name, self.group.name)

@@ -75,9 +75,9 @@ tr td:hover { background: #D1D4CF; color: white; }
     <thead>
       <tr>
         <th><center>Course</center></th>
-        <th><center>Prof name</center><center></th>
-        <th><center>No. of exams done</center></th>
-        <th><center>net % till now</center></th>
+        <th><center>Prof. name</center><center></th>
+        <th><center>No.of exams over</center></th>
+        <th><center>Net % till now</center></th>
       </tr>
     </thead>
     <tbody>
@@ -86,22 +86,10 @@ tr td:hover { background: #D1D4CF; color: white; }
           <td>
             <a href="{% url 'course_exams' course.pk %}">{{ course.name }}</a>
           </td>
-          <td >{{course.teacher}}</td>
+          <td >{{ course.teacher }}</td>
           <td>{{ course.get_exams_count }}</td>
           <td>{{ course.get_percent_till_now }}</td>
-<!--
-          <td> {% for exxam in course.get_perc %}
-        {{exxam.weightage}}
-    {% endfor %}</td>
 
-          <td id="sum_{{forloop.counter}}"></td>
-
-
-          <td id="netscore"></td>
-          <script type="text/javascript" src="exams.html">
-            document.getElementById("netscore").innerHTML = totalscore;
-          </script>
--->
 <script type="text/javascript">
   var cars="{{course.get_perc}}";
   var numb=0;

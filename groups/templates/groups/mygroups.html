@@ -13,7 +13,7 @@
 			{% if invite.sender.username == invite.invitee.username %}
 				<li><a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a>. You created the group.</li>
 			{% else %}
-				<li><a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a>. You were invited by <a href=''>{{ invite.sender.username }}</a>.</li>
+				<li><a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a>. You were invited by <a href="{% url 'profileview' invite.sender.username %}">{{ invite.sender.username }}</a>.</li>
 			{% endif %}
 		{% empty %}
 			<p>You're not in any group.</p>
@@ -27,7 +27,7 @@
 			<li>
 				<form method="post">
 					{% csrf_token %}
-					<p>You're invited to the group <a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a> by <a href=''>{{ invite.sender.username }}</a>.
+					<p>You're invited to the group <a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a> by <a href="{% url 'profileview' invite.sender.username %}">{{ invite.sender.username }}</a>.
 					<button type="submit" name="accept_{{ invite.group.pk }}">Accept</button>
 					<button type="submit" name="reject_{{ invite.group.pk }}">Reject</button></p>
 				</form>
@@ -40,7 +40,7 @@
 	<h2>Rejected invites:</h2>
 	<ul>
 		{% for invite in rejected_invites %}
-			<li>You rejected an invite to the group <a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a> sent by <a href=''>{{ invite.sender.username }}</a>.</li>
+			<li>You rejected an invite to the group <a href="{% url 'particular_group' invite.group.pk %}">{{ invite.group.name }}</a> sent by <a href="{% url 'profileview' invite.sender.username %}">{{ invite.sender.username }}</a>.</li>
 		{% empty %}
 			<p>You did not reject any invites.</p>
 		{% endfor %}

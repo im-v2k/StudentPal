@@ -15,7 +15,7 @@
 
 {% block breadcrumb %}
   <a href="{% url 'home' %}">Courses</a> / 
-  <a href="{% url 'course_exams' course.pk %}">{{ course.name }}</a> /
+  <a href="{% url 'course_exams' course.pk %}">{{ course.code }}</a> /
   New exam
 {% endblock %}
 

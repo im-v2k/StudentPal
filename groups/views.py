@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from groups.models import Invite, CustomGroup
 from django.contrib.auth.models import User
-from groups.forms import new_group, search_group
+from groups.forms import *
 
 def mygroups(request):
     if request.method == 'POST':
@@ -52,8 +52,25 @@ def searchgroups(request):
         return redirect('my_groups')
 
 def particulargroup(request, pk):
-    user = User.objects.get(username=request.user)
-    group = get_object_or_404(CustomGroup, pk=pk)
-    accepted_invites = Invite.objects.filter(group=group, is_accepted=True)
-    check = Invite.objects.filter(group=group, invitee=user, is_accepted=True)
-    return render(request, 'groups/particulargroup.html', {'accepted_invites' : accepted_invites, 'group' : group, 'check' : check})
+    if request.method == 'POST':
+        form = new_course(request.POST)
+        if form.is_valid():
+            form.save()
+            group = get_object_or_404(CustomGroup, pk=pk)
+            name = request.POST.get('name')
+            fc = FakeCourse.objects.create(group=group, name=name)
+            group.fakecourse_set.add(fc)
+            user = User.objects.get(username=request.user)
+            accepted_invites = Invite.objects.filter(group=group, is_accepted=True)
+            check = Invite.objects.filter(group=group, invitee=user, is_accepted=True)
+            courses = group.fakecourse_set.all()
+            form = new_course()
+            return render(request, 'groups/particulargroup.html', {'accepted_invites' : accepted_invites, 'group' : group, 'check' : check, 'courses': courses, 'form' : form})
+    else:
+        user = User.objects.get(username=request.user)
+        group = get_object_or_404(CustomGroup, pk=pk)
+        accepted_invites = Invite.objects.filter(group=group, is_accepted=True)
+        check = Invite.objects.filter(group=group, invitee=user, is_accepted=True)
+        form = new_course()
+        courses = group.fakecourse_set.all()
+        return render(request, 'groups/particulargroup.html', {'accepted_invites' : accepted_invites, 'group' : group, 'check' : check, 'form' : form, 'courses': courses})

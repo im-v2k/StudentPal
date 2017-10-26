@@ -1,4 +1,5 @@
 from django import forms
+from .models import FakeCourse
 
 class new_group(forms.Form):
     name = forms.CharField(max_length=50)
@@ -13,3 +14,9 @@ class new_group(forms.Form):
 
 class search_group(forms.Form):
     string = forms.CharField(max_length=50, label="Find a group ")
+
+class new_course(forms.ModelForm):
+    name = forms.CharField(max_length=20, label="Add a course")
+    class Meta:
+        model = FakeCourse
+        fields = ['name']

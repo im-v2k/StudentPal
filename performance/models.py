@@ -2,35 +2,24 @@ from django.db import models
 #from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-#from userinfo.models import Semester
-
-class Semester(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    sem_no = models.PositiveSmallIntegerField(default=0)
-
-    def __str__(self):
-        return "%s's Sem-%s" %(self.user.username, self.sem_no)
-
 
 class Course(models.Model):
-    #user = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True)
-    sem = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    code = models.CharField(max_length=20, default='')
     name = models.CharField(max_length=50, default='')
-    #course_credits = models.PositiveSmallIntegerField(default=0)
-    #grade_obt = models.PositiveSmallIntegerField(default=0)
     teacher = models.CharField(max_length=50, default='')
     comment = models.TextField(default='')
 
     def __str__(self):
-        return self.name
+        return self.code
     def get_exams_count(self):
-        return Exam.objects.filter(course__name=self).count()
+        return Exam.objects.filter(course=self).count()
     def get_courses(self):
-        return list(Exam.objects.filter(course__name=self))
+        return list(Exam.objects.filter(course=self))
 
     def get_percent_till_now(self):
         if self.get_exams_count() != 0:
-            exams = Exam.objects.filter(course__name=self)
+            exams = Exam.objects.filter(course=self)
             net_percent = 0
             net_weightage = 0
             for exam in exams:
@@ -43,7 +32,7 @@ class Course(models.Model):
         return ans
     def get_score_till_now(self):
         if self.get_exams_count() != 0:
-            exams = Exam.objects.filter(course__name=self)
+            exams = Exam.objects.filter(course=self)
             net_percent = 0
             net_weightage = 0
             for exam in exams:
@@ -62,10 +51,7 @@ class Exam(models.Model):
     name = models.CharField(max_length=30,)
     weightage = models.PositiveSmallIntegerField(default=100)
     max_marks = models.PositiveSmallIntegerField(default=100)
-    marks_obt = models.PositiveSmallIntegerField(
-        default=0,
-        validators=[MaxValueValidator(100, message='No Apsara dark logic please -_-')]
-        )
+    marks_obt = models.PositiveSmallIntegerField(default=0)
     comment = models.TextField(blank=True, default='')
 
     def __str__(self):

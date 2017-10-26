@@ -3,8 +3,11 @@
 {% block title %}Log out - Student Pal{% endblock %}
 
 {% block content %}
+<center>
     <form method="post" action={% url 'logout' %}>
     	{% csrf_token %}
+        <p>Are you sure you want to logout?</p>
     	<button type="submit">Log me out</button>
   	</form>
+</center>
 {% endblock %}

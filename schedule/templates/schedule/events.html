@@ -3,6 +3,41 @@
 <title> Schedule </title>
 <center>
 <style>
+table {
+    color: #333;
+    font-family: Helvetica, Arial, sans-serif;
+    width: 70%;
+    border-collapse:
+    collapse; border-spacing: 0;
+    margin-bottom:50px;
+}
+
+td, th {
+    border: 1px solid transparent;
+    height: 50px;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+th {
+    background: #030303  ;
+    color: #F6FAF4;
+    font-weight: bold;
+    text-align: center;
+}
+
+td {
+    background: #FAFAFA;
+    text-align: center;
+}
+
+tr:nth-child(even) td { background: #F1F1F1; }
+
+
+tr:nth-child(odd) td { background: #FEFEFE; }
+
+tr td:hover { background: #D1D4CF; color: white; }
+
 #navbarr {
     font-family: 'Shadows Into Light', cursive;
 
@@ -42,39 +77,16 @@
 #n{margin-left:15px;
 margin-top: 15px;}
 
-table.hovertable {
-	-moz-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;
-	width: 75%;
-	border : none;
-	color:#333333;
-	border-collapse: collapse;
-}
-table.hovertable th {
-	-moz-border-radius: 5px;
-	background-color:rgb(100,150,250);
-	padding: 8px;
-	border-color: #a9c6c9;
-}
-table.hovertable tr {
-	-moz-border-radius: 5px;
-	background-color:#d4e3e5;
-}
-table.hovertable td {
-	-moz-border-radius: 5px;
-	border-width: 1px;
-	padding: 8px;
-}
+
 </style>
 
 <table class="hovertable">
 	<tr style="text-align: left;">
-		<th> Name </th>
-		<th> Date </th>
-		<th> Start-Time </th>
-		<th> End-Time </th>
-		<th> Description </th>
+		<th><center> Name</center> </th>
+		<th><center>  Date</center> </th>
+		<th><center>  Start-Time </center></th>
+		<th><center>  End-Time </center></th>
+		<th><center>  Description</center> </th>
 	</tr>
 {% for event in events %}
 <tr onmouseover="this.style.backgroundColor='rgb(195,221,250)';" onmouseout="this.style.backgroundColor='#d4e3e5';">
