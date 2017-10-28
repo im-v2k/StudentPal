@@ -30,9 +30,12 @@ from django.core.files.storage import FileSystemStorage
 #  @details It stores courses in variable named 'courses'
 #  @return Redirects to home.html page
 def home(request):
-    u = User.objects.get(username=request.user)
-    courses = u.course_set.all()
-    return render(request, 'performance/home.html', {'courses': courses})
+    if request.user.is_authenticated:
+        u = User.objects.get(username=request.user)
+        courses = u.course_set.all()
+        return render(request, 'performance/home.html', {'courses': courses})
+    else:
+        return render(request, 'home/home.html')
 
 ## Function course_exams
 #
