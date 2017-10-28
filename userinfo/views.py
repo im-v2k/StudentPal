@@ -1,3 +1,10 @@
+## @file views.py
+#  @author SYNTAX
+#  @date 28 Oct 2017
+#  
+#  @brief This is a file conatining some functions using python.
+#
+#  It contains of functions named info,profileview etc.
 from django.shortcuts import render,redirect,reverse, get_object_or_404
 from django.http import HttpResponseRedirect
 from .forms import *
@@ -5,6 +12,10 @@ from .models import *
 from datetime import datetime
 from django.contrib import messages
 
+## Function info
+#
+#  @details It deals with option to edit and save user information.
+#  @return Redirects to info.html page
 def info(request):
 	if 'edit' in request.POST:
 		a = True
@@ -40,6 +51,9 @@ def info(request):
 		return render(request, 'userinfo/info.html',{'info1' : info1,'info2': info2,'a' : a})
 	return HttpResponseRedirect('')
 
+
+## Function profileview
+#  @return Redirects to profile.html page
 def profileview(request, username):
 	user = get_object_or_404(User, username=username)
 	profile = user.profile

@@ -1,3 +1,11 @@
+## @file views.py
+#  @author SYNTAX
+#  @date 28 Oct 2017
+#  
+#  @brief This is a file conatining some functions using python.
+#
+#  It contains functions named event,update_event etc.
+#  The arguments describe the type of functions described in the class.
 from django.shortcuts import render,redirect,reverse
 import sys
 from django.http import HttpResponseRedirect
@@ -6,10 +14,18 @@ from .models import *
 from datetime import datetime
 from django.contrib import messages
 
+## Function events
+#
+#  @details It stores events in variable named 'events'
+#  @return Redirects to events.html page
 def events(request):
 	events = Event.objects.all()
 	return render(request,'schedule/events.html',{'events' : events})
 
+## Function update_event
+#
+#  @details It is used to update a event
+#  @return Redirects to update_event.html page
 def update_event(request):
 	if request.method == 'POST':
 		name = request.POST.get('name')
@@ -28,6 +44,10 @@ def update_event(request):
 		events = Event.objects.all()
 	return render(request, 'schedule/update_event.html', {'events' : events,'form' : form})
 
+## Function dalete_event
+#
+#  @details It is used to delete an event
+#  @return Redirects to delete_event.html page
 def delete_event(request):
 	if request.method == 'POST':
 		name = request.POST.get('name')
@@ -45,6 +65,10 @@ def delete_event(request):
 		events = Event.objects.all()
 	return render(request,'schedule/delete_event.html',{'events' : events,'form' : form})
 
+## Function create_event
+#
+#  @details It is to create new events
+#  @return Redirects to new_event.html page
 def create_event(request):
 	if request.method == 'POST':
 		form = event_details(request.POST)

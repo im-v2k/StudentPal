@@ -1,9 +1,20 @@
-
+## @file forms.py
+#  @author SYNTAX
+#  @date 28 Oct 2017
+#  
+#  @brief This is a file conatining some classes using python.
+#
+#  It contains class named CustomUserCreationForm
+#  The arguments describe the type of functions described in the class.
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 
+## class CustomUserCreationForm
+#
+# It is a form used to create new user
+#first_name,last_name,email etc. are its parts
 class CustomUserCreationForm(UserCreationForm):
 
     first_name = forms.CharField(
@@ -32,7 +43,8 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ("username", "password1", "password2", "first_name", "last_name", "email")
         field_classes = {'username': UsernameField}
-
+    ## Used to save new user data to database
+    # 
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
