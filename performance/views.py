@@ -9,9 +9,12 @@ import os, subprocess
 from django.core.files.storage import FileSystemStorage
 
 def home(request):
-    u = User.objects.get(username=request.user)
-    courses = u.course_set.all()
-    return render(request, 'performance/home.html', {'courses': courses})
+    if request.user.is_authenticated:
+        u = User.objects.get(username=request.user)
+        courses = u.course_set.all()
+        return render(request, 'performance/home.html', {'courses': courses})
+    else:
+        return render(request, 'home/home.html')
 
 def course_exams(request, pk):
     course = get_object_or_404(Course, pk=pk)

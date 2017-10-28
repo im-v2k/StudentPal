@@ -23,7 +23,7 @@ margin-top: 15px;}
       </div>
   </nav>
 
-<a href="{% url 'homepage' %}"> 
+<a href="{% url 'homepage' %}">
     <button type="button" id="n" class="btn btn-success"> Back </button>
     </a> <br>
 <center>
@@ -41,7 +41,7 @@ margin-top: 15px;}
             {{ info1 }}
           </div>
         </table>
-            <button class="btn btn-success" type="submit" name="edit" {% if a %} disabled {% endif %}>edt</button>
+            <button class="btn btn-success" type="submit" name="edit" {% if a %} disabled {% endif %}>edit</button>
             <button class="btn btn-success" type="submit" name="save" {% if not a %} disabled {% endif %}>save</button>
         </form>
     </table>
