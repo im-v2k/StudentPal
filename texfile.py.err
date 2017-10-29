@@ -1,4 +1,0 @@
-  File "<stdin>", line 1
-    print r"Hello \LaTeX!"
-                         ^
-SyntaxError: Missing parentheses in call to 'print'
